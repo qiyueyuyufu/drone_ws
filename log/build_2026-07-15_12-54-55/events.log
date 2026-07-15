@@ -1,0 +1,119 @@
+[0.000000] (-) TimerEvent: {}
+[0.000407] (test_project) JobQueued: {'identifier': 'test_project', 'dependencies': OrderedDict()}
+[0.000791] (test_project) JobStarted: {'identifier': 'test_project'}
+[0.011209] (test_project) JobProgress: {'identifier': 'test_project', 'progress': 'cmake'}
+[0.011893] (test_project) JobProgress: {'identifier': 'test_project', 'progress': 'build'}
+[0.012524] (test_project) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/qiyue/ros2_learn/test/build/test_project', '--', '-j32', '-l32'], 'cwd': '/home/qiyue/ros2_learn/test/build/test_project', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share:/home/qiyue/PX4-Autopilot/Tools/simulation/gz/models', 'LANGUAGE': 'zh_CN:en', 'USER': 'qiyue', 'LC_TIME': 'zh_CN.UTF-8', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'OPENAI_BASE_URL': 'https://okinto.space/v1', 'HOME': '/home/qiyue', 'OLDPWD': '/home/qiyue/ros2_learn', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'OPENAI_API_KEY': 'sk-0rO8JOMHyX8Gy0MXv571mE538jdCf6H7uebUZ2DXK1sTtMZW', 'GTK_MODULES': 'gail:atk-bridge', 'HF_ENDPOINT': 'https://hf-mirror.com', 'LC_MONETARY': 'zh_CN.UTF-8', 'MANAGERPID': '2479', 'SYSTEMD_EXEC_PID': '2981', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '16990', 'GNOME_KEYRING_CONTROL': '/run/user/1000/keyring', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'COLCON_PREFIX_PATH': '/home/qiyue/ros2_learn/test/install:/home/qiyue/ros2_learn/subcribleandtransmit/install:/home/qiyue/ros2_learn/L0zhelloworld/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'qiyue', 'JOURNAL_STREAM': '9:7654', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.SettingsDaemon.MediaKeys.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'qiyue', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'WINDOWPATH': '2', 'PATH': '/home/qiyue/.npm-global/bin:/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/qiyue/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/qiyue/.lmstudio/bin:/home/qiyue/.lmstudio/bin:/opt/xtensa-esp-elf/bin/', 'SESSION_MANAGER': 'local/qiyue-Legion-R9000P-ARX8:@/tmp/.ICE-unix/2839,unix/qiyue-Legion-R9000P-ARX8:/tmp/.ICE-unix/2839', 'INVOCATION_ID': 'e6da4591c79d4f90802485a8d483e169', 'PAPERSIZE': 'a4', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'zh_CN.UTF-8', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'LANG': 'zh_CN.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'zh_CN.UTF-8', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/qiyue/ros2_learn/test/install/test_project:/home/qiyue/ros2_learn/subcribleandtransmit/install/subscribe:/home/qiyue/ros2_learn/L0zhelloworld/install/helloworld_cpp:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'zh_CN.UTF-8', 'TERMINATOR_UUID': 'urn:uuid:bb7b89ac-eb46-41ba-8d99-a77d725e7da1', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'zh_CN.UTF-8', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'LC_IDENTIFICATION': 'zh_CN.UTF-8', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/qiyue/ros2_learn/test/build/test_project', 'HF_HUB_ENABLE_HF_TRANSFER': '1', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'QTWEBENGINE_DICTIONARIES_PATH': '/usr/share/hunspell-bdic/', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'zh_CN.UTF-8', 'LC_PAPER': 'zh_CN.UTF-8', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/qiyue/ros2_learn/test/install/test_project:/home/qiyue/ros2_learn/subcribleandtransmit/install/subscribe:/home/qiyue/ros2_learn/L0zhelloworld/install/helloworld_cpp:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[0.090072] (test_project) StdoutLine: {'line': b'[ 33%] \x1b[32mBuilding CXX object CMakeFiles/test_node.dir/src/test_node.cpp.o\x1b[0m\n'}
+[0.099468] (-) TimerEvent: {}
+[0.199667] (-) TimerEvent: {}
+[0.299826] (-) TimerEvent: {}
+[0.399974] (-) TimerEvent: {}
+[0.500119] (-) TimerEvent: {}
+[0.600267] (-) TimerEvent: {}
+[0.700438] (-) TimerEvent: {}
+[0.800611] (-) TimerEvent: {}
+[0.900783] (-) TimerEvent: {}
+[1.000964] (-) TimerEvent: {}
+[1.101147] (-) TimerEvent: {}
+[1.201326] (-) TimerEvent: {}
+[1.301505] (-) TimerEvent: {}
+[1.401690] (-) TimerEvent: {}
+[1.501875] (-) TimerEvent: {}
+[1.602076] (-) TimerEvent: {}
+[1.702305] (-) TimerEvent: {}
+[1.802479] (-) TimerEvent: {}
+[1.902661] (-) TimerEvent: {}
+[2.002847] (-) TimerEvent: {}
+[2.103021] (-) TimerEvent: {}
+[2.203200] (-) TimerEvent: {}
+[2.303375] (-) TimerEvent: {}
+[2.403566] (-) TimerEvent: {}
+[2.503751] (-) TimerEvent: {}
+[2.603928] (-) TimerEvent: {}
+[2.704109] (-) TimerEvent: {}
+[2.804306] (-) TimerEvent: {}
+[2.904482] (-) TimerEvent: {}
+[3.004679] (-) TimerEvent: {}
+[3.104858] (-) TimerEvent: {}
+[3.205040] (-) TimerEvent: {}
+[3.305219] (-) TimerEvent: {}
+[3.405381] (-) TimerEvent: {}
+[3.505550] (-) TimerEvent: {}
+[3.605706] (-) TimerEvent: {}
+[3.705856] (-) TimerEvent: {}
+[3.805992] (-) TimerEvent: {}
+[3.906130] (-) TimerEvent: {}
+[4.006307] (-) TimerEvent: {}
+[4.106462] (-) TimerEvent: {}
+[4.206649] (-) TimerEvent: {}
+[4.306834] (-) TimerEvent: {}
+[4.407022] (-) TimerEvent: {}
+[4.507199] (-) TimerEvent: {}
+[4.607327] (-) TimerEvent: {}
+[4.707494] (-) TimerEvent: {}
+[4.807646] (-) TimerEvent: {}
+[4.907807] (-) TimerEvent: {}
+[5.007990] (-) TimerEvent: {}
+[5.108146] (-) TimerEvent: {}
+[5.208286] (-) TimerEvent: {}
+[5.308449] (-) TimerEvent: {}
+[5.408630] (-) TimerEvent: {}
+[5.508810] (-) TimerEvent: {}
+[5.608986] (-) TimerEvent: {}
+[5.709135] (-) TimerEvent: {}
+[5.809319] (-) TimerEvent: {}
+[5.909476] (-) TimerEvent: {}
+[6.009653] (-) TimerEvent: {}
+[6.109806] (-) TimerEvent: {}
+[6.209947] (-) TimerEvent: {}
+[6.310097] (-) TimerEvent: {}
+[6.410273] (-) TimerEvent: {}
+[6.510439] (-) TimerEvent: {}
+[6.610579] (-) TimerEvent: {}
+[6.710743] (-) TimerEvent: {}
+[6.810880] (-) TimerEvent: {}
+[6.911043] (-) TimerEvent: {}
+[7.011229] (-) TimerEvent: {}
+[7.111380] (-) TimerEvent: {}
+[7.211541] (-) TimerEvent: {}
+[7.311702] (-) TimerEvent: {}
+[7.411880] (-) TimerEvent: {}
+[7.512062] (-) TimerEvent: {}
+[7.612274] (-) TimerEvent: {}
+[7.712539] (-) TimerEvent: {}
+[7.812679] (-) TimerEvent: {}
+[7.912828] (-) TimerEvent: {}
+[8.013006] (-) TimerEvent: {}
+[8.113156] (-) TimerEvent: {}
+[8.213293] (-) TimerEvent: {}
+[8.288886] (test_project) StdoutLine: {'line': b'[ 66%] \x1b[32m\x1b[1mLinking CXX executable test_node\x1b[0m\n'}
+[8.313405] (-) TimerEvent: {}
+[8.413631] (-) TimerEvent: {}
+[8.513818] (-) TimerEvent: {}
+[8.613984] (-) TimerEvent: {}
+[8.638054] (test_project) StdoutLine: {'line': b'[100%] Built target test_node\n'}
+[8.647142] (test_project) CommandEnded: {'returncode': 0}
+[8.647685] (test_project) JobProgress: {'identifier': 'test_project', 'progress': 'install'}
+[8.654701] (test_project) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/qiyue/ros2_learn/test/build/test_project'], 'cwd': '/home/qiyue/ros2_learn/test/build/test_project', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'GZ_SIM_RESOURCE_PATH': '/opt/ros/jazzy/share:/home/qiyue/PX4-Autopilot/Tools/simulation/gz/models', 'LANGUAGE': 'zh_CN:en', 'USER': 'qiyue', 'LC_TIME': 'zh_CN.UTF-8', 'GZ_CONFIG_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/share/gz:/opt/ros/jazzy/opt/sdformat_vendor/share/gz:/opt/ros/jazzy/opt/gz_gui_vendor/share/gz:/opt/ros/jazzy/opt/gz_transport_vendor/share/gz:/opt/ros/jazzy/opt/gz_rendering_vendor/share/gz:/opt/ros/jazzy/opt/gz_plugin_vendor/share/gz:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/share/gz:/opt/ros/jazzy/opt/gz_msgs_vendor/share/gz:/opt/ros/jazzy/opt/gz_common_vendor/share/gz', 'XDG_SESSION_TYPE': 'x11', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/x86_64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'OPENAI_BASE_URL': 'https://okinto.space/v1', 'HOME': '/home/qiyue', 'OLDPWD': '/home/qiyue/ros2_learn', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'OPENAI_API_KEY': 'sk-0rO8JOMHyX8Gy0MXv571mE538jdCf6H7uebUZ2DXK1sTtMZW', 'GTK_MODULES': 'gail:atk-bridge', 'HF_ENDPOINT': 'https://hf-mirror.com', 'LC_MONETARY': 'zh_CN.UTF-8', 'MANAGERPID': '2479', 'SYSTEMD_EXEC_PID': '2981', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'TERMINATOR_DBUS_NAME': 'net.tenshu.Terminator23558193cd9818af7fe4d2c2f5bd9d00f', 'GIO_LAUNCHED_DESKTOP_FILE_PID': '16990', 'GNOME_KEYRING_CONTROL': '/run/user/1000/keyring', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'COLCON_PREFIX_PATH': '/home/qiyue/ros2_learn/test/install:/home/qiyue/ros2_learn/subcribleandtransmit/install:/home/qiyue/ros2_learn/L0zhelloworld/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'qiyue', 'JOURNAL_STREAM': '9:7654', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.SettingsDaemon.MediaKeys.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'qiyue', 'TERM': 'xterm-256color', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'WINDOWPATH': '2', 'PATH': '/home/qiyue/.npm-global/bin:/opt/ros/jazzy/opt/gz_msgs_vendor/bin:/opt/ros/jazzy/opt/gz_tools_vendor/bin:/opt/ros/jazzy/opt/gz_ogre_next_vendor/bin:/opt/ros/jazzy/bin:/home/qiyue/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/qiyue/.lmstudio/bin:/home/qiyue/.lmstudio/bin:/opt/xtensa-esp-elf/bin/', 'SESSION_MANAGER': 'local/qiyue-Legion-R9000P-ARX8:@/tmp/.ICE-unix/2839,unix/qiyue-Legion-R9000P-ARX8:/tmp/.ICE-unix/2839', 'INVOCATION_ID': 'e6da4591c79d4f90802485a8d483e169', 'PAPERSIZE': 'a4', 'XDG_MENU_PREFIX': 'gnome-', 'LC_ADDRESS': 'zh_CN.UTF-8', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':1', 'TERMINATOR_DBUS_PATH': '/net/tenshu/Terminator2', 'LANG': 'zh_CN.UTF-8', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'LC_TELEPHONE': 'zh_CN.UTF-8', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'AMENT_PREFIX_PATH': '/home/qiyue/ros2_learn/test/install/test_project:/home/qiyue/ros2_learn/subcribleandtransmit/install/subscribe:/home/qiyue/ros2_learn/L0zhelloworld/install/helloworld_cpp:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'zh_CN.UTF-8', 'TERMINATOR_UUID': 'urn:uuid:bb7b89ac-eb46-41ba-8d99-a77d725e7da1', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'LC_MEASUREMENT': 'zh_CN.UTF-8', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'LC_IDENTIFICATION': 'zh_CN.UTF-8', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/qiyue/ros2_learn/test/build/test_project', 'HF_HUB_ENABLE_HF_TRANSFER': '1', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'QTWEBENGINE_DICTIONARIES_PATH': '/usr/share/hunspell-bdic/', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'zh_CN.UTF-8', 'LC_PAPER': 'zh_CN.UTF-8', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/qiyue/ros2_learn/test/install/test_project:/home/qiyue/ros2_learn/subcribleandtransmit/install/subscribe:/home/qiyue/ros2_learn/L0zhelloworld/install/helloworld_cpp:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[8.662048] (test_project) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[8.662330] (test_project) StdoutLine: {'line': b'-- Installing: /home/qiyue/ros2_learn/test/install/test_project/lib/test_project/test_node\n'}
+[8.674502] (test_project) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/qiyue/ros2_learn/test/install/test_project/lib/test_project/test_node" to ""\n'}
+[8.674616] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/package_run_dependencies/test_project\n'}
+[8.674760] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/parent_prefix_path/test_project\n'}
+[8.674830] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/ament_prefix_path.sh\n'}
+[8.674896] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/ament_prefix_path.dsv\n'}
+[8.674965] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/path.sh\n'}
+[8.675030] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/path.dsv\n'}
+[8.675149] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.bash\n'}
+[8.675212] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.sh\n'}
+[8.675277] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.zsh\n'}
+[8.675340] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.dsv\n'}
+[8.675402] (test_project) StdoutLine: {'line': b'-- Installing: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/package.dsv\n'}
+[8.675474] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/packages/test_project\n'}
+[8.675540] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/cmake/test_projectConfig.cmake\n'}
+[8.675604] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/cmake/test_projectConfig-version.cmake\n'}
+[8.675695] (test_project) StdoutLine: {'line': b'-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/package.xml\n'}
+[8.676689] (test_project) CommandEnded: {'returncode': 0}
+[8.687313] (test_project) JobEnded: {'identifier': 'test_project', 'rc': 0}
+[8.687847] (-) EventReactorShutdown: {}
