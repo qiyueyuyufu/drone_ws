@@ -1,0 +1,25 @@
+[0.015s] Invoking command in '/home/qiyue/ros2_learn/test/build/test_project': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/qiyue/ros2_learn/test/build/test_project -- -j32 -l32
+[0.141s] [ 33%] [32mBuilding CXX object CMakeFiles/test_node.dir/src/test_node.cpp.o[0m
+[15.806s] [ 66%] [32m[1mLinking CXX executable test_node[0m
+[16.578s] [100%] Built target test_node
+[16.596s] Invoked command in '/home/qiyue/ros2_learn/test/build/test_project' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/qiyue/ros2_learn/test/build/test_project -- -j32 -l32
+[16.611s] Invoking command in '/home/qiyue/ros2_learn/test/build/test_project': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/qiyue/ros2_learn/test/build/test_project
+[16.624s] -- Install configuration: ""
+[16.624s] -- Installing: /home/qiyue/ros2_learn/test/install/test_project/lib/test_project/test_node
+[16.644s] -- Set non-toolchain portion of runtime path of "/home/qiyue/ros2_learn/test/install/test_project/lib/test_project/test_node" to ""
+[16.644s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/package_run_dependencies/test_project
+[16.644s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/parent_prefix_path/test_project
+[16.644s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/ament_prefix_path.sh
+[16.644s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/ament_prefix_path.dsv
+[16.645s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/path.sh
+[16.645s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/path.dsv
+[16.645s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.bash
+[16.645s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.sh
+[16.645s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.zsh
+[16.645s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.dsv
+[16.645s] -- Installing: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/package.dsv
+[16.645s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/packages/test_project
+[16.645s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/cmake/test_projectConfig.cmake
+[16.646s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/cmake/test_projectConfig-version.cmake
+[16.646s] -- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/package.xml
+[16.647s] Invoked command in '/home/qiyue/ros2_learn/test/build/test_project' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/qiyue/ros2_learn/test/build/test_project

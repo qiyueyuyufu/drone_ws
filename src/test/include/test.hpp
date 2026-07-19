@@ -20,6 +20,14 @@ class Test :public rclcpp::Node
     public:
         Test();
     private:
+        enum State
+        {
+            WAIT,
+            TAKEOFF,
+            TRIANGLE,
+            LAND
+        };
+
         void StateCallback(mavros_msgs::msg::State::SharedPtr msg);
         void SpeedCallback(geometry_msgs::msg::TwistStamped::SharedPtr msg);
         void PoseCallback(geometry_msgs::msg::PoseStamped::SharedPtr msg);
@@ -28,6 +36,7 @@ class Test :public rclcpp::Node
         void Pubvel(Eigen::Vector3d vel_cmd,double yaw);
         void loop();
         bool isoffboardready();
+        bool isReachedTarget(double tolerance);
         TrajectoryPoint current_;
         TrajectoryPoint target_;
 
@@ -50,6 +59,10 @@ class Test :public rclcpp::Node
         double kp_{0.55};
         double kd_{0.09};
         PositionController position_;
+
+        State current_state_{WAIT};
+        int triangle_index_{0};
+        Eigen::Vector3d triangle_points_[3];
 
 };
 

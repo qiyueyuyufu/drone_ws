@@ -1,0 +1,21 @@
+[ 33%] [32mBuilding CXX object CMakeFiles/test_node.dir/src/test_node.cpp.o[0m
+[ 66%] [32m[1mLinking CXX executable test_node[0m
+[100%] Built target test_node
+-- Install configuration: ""
+-- Installing: /home/qiyue/ros2_learn/test/install/test_project/lib/test_project/test_node
+-- Set non-toolchain portion of runtime path of "/home/qiyue/ros2_learn/test/install/test_project/lib/test_project/test_node" to ""
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/package_run_dependencies/test_project
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/parent_prefix_path/test_project
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/ament_prefix_path.sh
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/ament_prefix_path.dsv
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/path.sh
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/path.dsv
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.bash
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.sh
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.zsh
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/local_setup.dsv
+-- Installing: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/package.dsv
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/packages/test_project
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/cmake/test_projectConfig.cmake
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/cmake/test_projectConfig-version.cmake
+-- Up-to-date: /home/qiyue/ros2_learn/test/install/test_project/share/test_project/package.xml

@@ -26,7 +26,7 @@ Eigen::Vector3d PositionController::computeVelocity(
     Eigen::Vector3d error_pos = target.position - current.position;
     Eigen::Vector3d error_vel = target.velocity - current.velocity;
     // P控制
-    Eigen::Vector3d velocity = kp_ * error_pos + kd_*error_vel;
+    Eigen::Vector3d velocity = target.velocity+kp_ * error_pos + kd_*error_vel;
 
     // 限幅
     velocity.x() = std::clamp(velocity.x(), -max_vel_, max_vel_);

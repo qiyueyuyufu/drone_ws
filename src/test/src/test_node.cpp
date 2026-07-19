@@ -34,7 +34,11 @@ Test::Test():Node("Test")
         "/mavros/set_mode"
     );
 
-    target_.position<<0.0,0.0,0.25;
+    triangle_points_[0] = Eigen::Vector3d(0.0, 0.0, 1.0);
+    triangle_points_[1] = Eigen::Vector3d(1.0, 0.0, 1.0);
+    triangle_points_[2] = Eigen::Vector3d(0.5, 0.866, 1.0);
+
+    target_.position<<0.0,0.0,1.0;
     target_.velocity<<0,0,0;
     position_.setGain(kp_,kd_);
     position_.setMaxVelocity(2.0);
@@ -95,34 +99,101 @@ bool Test::isoffboardready()
     return state_.connected&&(state_.mode=="OFFBOARD");
 }
 
+bool Test::isReachedTarget(double tolerance)
+{
+    return (current_.position - target_.position).norm() < tolerance;
+}
+
 void Test::loop()
 {
-    
-    
-    if(count_%20==0)
+
+
+    if(count_==20)
     {
-        RCLCPP_INFO(this->get_logger(),"X:%.2f,Y:%.2f,Z:%.2f",current_.position.x(),current_.position.y(),current_.position.z());
+        RCLCPP_INFO(this->get_logger(),"State:%d X:%.2f,Y:%.2f,Z:%.2f",current_state_,current_.position.x(),current_.position.y(),current_.position.z());
         count_ = 0;
     }
     auto now = this->now();
-    if(!isoffboardready())
+
+    switch(current_state_)
     {
-        if((now-last_request_).seconds()>1.0)
+        case WAIT:
         {
-            SetMode("OFFBOARD");
-            last_request_ = now;
+            if(!isoffboardready())
+            {
+                if((now-last_request_).seconds()>1.0)
+                {
+                    SetMode("OFFBOARD");
+                    last_request_ = now;
+                }
+                vel_cmd_.setZero();
+            }
+            else
+            {
+                if(!state_.armed)
+                {
+                    if((now-last_request_).seconds()>1.0)
+                    {
+                        arm(true);
+                        last_request_ = now;
+                    }
+                    vel_cmd_.setZero();
+                }
+                else
+                {
+                    RCLCPP_INFO(this->get_logger(),"Connected and Armed, entering TAKEOFF");
+                    current_state_ = TAKEOFF;
+                    target_.position = Eigen::Vector3d(0.0, 0.0, 1.0);
+                }
+            }
+            break;
         }
-        vel_cmd_.Zero();
-    }else
-    {
-         if((now-last_request_).seconds()>1.0)
+        case TAKEOFF:
         {
-          arm(true);
-           last_request_ = now;
+            vel_cmd_ = position_.computeVelocity(current_,target_);
+            if(isReachedTarget(0.2))
+            {
+                RCLCPP_INFO(this->get_logger(),"Takeoff complete, entering TRIANGLE");
+                current_state_ = TRIANGLE;
+                triangle_index_ = 0;
+                target_.position = triangle_points_[triangle_index_];
+            }
+            break;
         }
-        vel_cmd_ = position_.computeVelocity(current_,target_);
+        case TRIANGLE:
+        {
+            vel_cmd_ = position_.computeVelocity(current_,target_);
+            if(isReachedTarget(0.2))
+            {
+                triangle_index_++;
+                if(triangle_index_ >= 3)
+                {
+                    RCLCPP_INFO(this->get_logger(),"Triangle complete, entering LAND");
+                    current_state_ = LAND;
+                    target_.position = Eigen::Vector3d(0.5, 0.433, 0.0);
+                }
+                else
+                {
+                    target_.position = triangle_points_[triangle_index_];
+                    RCLCPP_INFO(this->get_logger(),"Moving to triangle point %d",triangle_index_);
+                }
+            }
+            break;
+        }
+        case LAND:
+        {
+            vel_cmd_ = position_.computeVelocity(current_,target_);
+            if(isReachedTarget(0.2))
+            {
+                RCLCPP_INFO(this->get_logger(),"Landing complete");
+                vel_cmd_.setZero();
+            }
+            break;
+        }
     }
+
     Pubvel(vel_cmd_,0);
+    count_++;
 }
 
 int main(int argc,char** argv)
