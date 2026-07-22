@@ -1,5 +1,8 @@
 #include "test.hpp"
 
+#include <algorithm>
+#include <cctype>
+
 using namespace std::chrono_literals;
 
 Test::Test():Node("Test")
@@ -21,6 +24,11 @@ Test::Test():Node("Test")
         "/mavros/state",
         qos,
         std::bind(&Test::StateCallback,this,std::placeholders::_1)
+    );
+    command_sub_ = this->create_subscription<std_msgs::msg::String>(
+        "/stm32_serial/command",
+        10,
+        std::bind(&Test::CommandCallback,this,std::placeholders::_1)
     );
      speed_pub_ = this->create_publisher<geometry_msgs::msg::TwistStamped>(
         "/mavros/setpoint_velocity/cmd_vel",
@@ -45,6 +53,8 @@ Test::Test():Node("Test")
     timer_ = this->create_wall_timer(
         50ms,
         std::bind(&Test::loop,this));
+
+    RCLCPP_INFO(this->get_logger(),"Waiting for serial takeoff command");
 }
 
 void Test::StateCallback(mavros_msgs::msg::State::SharedPtr msg)
@@ -78,6 +88,26 @@ void Test::SpeedCallback(geometry_msgs::msg::TwistStamped::SharedPtr msg)
 
 }
 
+void Test::CommandCallback(std_msgs::msg::String::SharedPtr msg)
+{
+    std::string command = msg->data;
+    std::transform(command.begin(), command.end(), command.begin(), [](unsigned char ch) {
+        return static_cast<char>(std::tolower(ch));
+    });
+
+    if(command == "takeoff")
+    {
+        takeoff_requested_ = true;
+        landing_stopped_ = false;
+        RCLCPP_INFO(this->get_logger(),"Received serial takeoff command");
+    }
+    else if(command == "land")
+    {
+        RCLCPP_INFO(this->get_logger(),"Received serial land command");
+        EnterLand();
+    }
+}
+
 void Test::Pubvel(Eigen::Vector3d vel_cmd,double yaw)
 {
     geometry_msgs::msg::TwistStamped msg;
@@ -104,22 +134,29 @@ bool Test::isReachedTarget(double tolerance)
     return (current_.position - target_.position).norm() < tolerance;
 }
 
+void Test::EnterLand()
+{
+    takeoff_requested_ = false;
+    landing_stopped_ = false;
+    current_state_ = LAND;
+    target_.position = Eigen::Vector3d(current_.position.x(), current_.position.y(), 0.0);
+    target_.velocity.setZero();
+}
+
 void Test::loop()
 {
 
-
-    if(count_==20)
-    {
-        RCLCPP_INFO(this->get_logger(),"State:%d X:%.2f,Y:%.2f,Z:%.2f",current_state_,current_.position.x(),current_.position.y(),current_.position.z());
-        count_ = 0;
-    }
     auto now = this->now();
 
     switch(current_state_)
     {
         case WAIT:
         {
-            if(!isoffboardready())
+            if(!takeoff_requested_)
+            {
+                vel_cmd_.setZero();
+            }
+            else if(!isoffboardready())
             {
                 if((now-last_request_).seconds()>1.0)
                 {
@@ -169,8 +206,7 @@ void Test::loop()
                 if(triangle_index_ >= 3)
                 {
                     RCLCPP_INFO(this->get_logger(),"Triangle complete, entering LAND");
-                    current_state_ = LAND;
-                    target_.position = Eigen::Vector3d(0.5, 0.433, 0.0);
+                    EnterLand();
                 }
                 else
                 {
@@ -182,18 +218,25 @@ void Test::loop()
         }
         case LAND:
         {
-            vel_cmd_ = position_.computeVelocity(current_,target_);
-            if(isReachedTarget(0.2))
+            if(current_.position.z() <= 0.3)
             {
-                RCLCPP_INFO(this->get_logger(),"Landing complete");
+                if(!landing_stopped_)
+                {
+                    RCLCPP_INFO(this->get_logger(),"Height below 0.3m, stopping vehicle");
+                    landing_stopped_ = true;
+                }
                 vel_cmd_.setZero();
+            }
+            else
+            {
+                target_.position = Eigen::Vector3d(current_.position.x(), current_.position.y(), 0.0);
+                vel_cmd_ = position_.computeVelocity(current_,target_);
             }
             break;
         }
     }
 
     Pubvel(vel_cmd_,0);
-    count_++;
 }
 
 int main(int argc,char** argv)

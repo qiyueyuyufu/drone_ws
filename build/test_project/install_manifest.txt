@@ -1,4 +1,5 @@
 /home/qiyue/ros2_learn/test/install/test_project/lib/test_project/test_node
+/home/qiyue/ros2_learn/test/install/test_project/share/test_project/launch/test_with_serial.launch.py
 /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/package_run_dependencies/test_project
 /home/qiyue/ros2_learn/test/install/test_project/share/ament_index/resource_index/parent_prefix_path/test_project
 /home/qiyue/ros2_learn/test/install/test_project/share/test_project/environment/ament_prefix_path.sh

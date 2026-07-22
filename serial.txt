@@ -1,0 +1,387 @@
+GroundStation Serial Protocol
+=============================
+
+1. Basic Frame
+--------------
+
+All serial packets use the following binary frame:
+
+    HEAD CMD LEN DATA... CHECK TAIL
+
+Field definition:
+
+    HEAD  : 0xAA
+    CMD   : 1 byte command id
+    LEN   : 1 byte payload length, 0~128
+    DATA  : payload bytes, length = LEN
+    CHECK : low 8 bits of (CMD + LEN + DATA[0] + ... + DATA[LEN-1])
+    TAIL  : 0xFF
+
+Checksum example:
+
+    CHECK = (CMD + LEN + all DATA bytes) & 0xFF
+
+
+2. Command Enum
+---------------
+
+The STM32 code uses these enum names and values:
+
+    GS_CMD_TAKEOFF        = 0x01
+    GS_CMD_LAND           = 0x02
+    GS_CMD_RETURN_HOME    = 0x03
+    GS_CMD_FORBIDDEN_MAP  = 0x10
+    GS_CMD_PATH_PLAN      = 0x20
+    GS_CMD_ACK            = 0x7F
+    GS_CMD_NACK           = 0x7E
+
+
+3. Debug With Serial Tool
+-------------------------
+
+When using SSCOM or another serial tool:
+
+    baudrate: 115200
+    data bits: 8
+    stop bits: 1
+    parity: none
+    HEX send: enabled
+
+Example: send TAKEOFF to STM32:
+
+    AA010001FF
+
+Same frame with spaces:
+
+    AA 01 00 01 FF
+
+If STM32 receives this valid frame, it displays RX information in the STATUS
+panel and replies ACK:
+
+    AA 7F 01 01 81 FF
+
+
+4. STM32 -> Onboard Computer
+----------------------------
+
+4.1 Takeoff
+
+    CMD  = GS_CMD_TAKEOFF
+    LEN  = 0
+    DATA = none
+
+Frame:
+
+    AA 01 00 01 FF
+
+
+4.2 Land
+
+    CMD  = GS_CMD_LAND
+    LEN  = 0
+    DATA = none
+
+Frame:
+
+    AA 02 00 02 FF
+
+
+4.3 Return Home
+
+    CMD  = GS_CMD_RETURN_HOME
+    LEN  = 0
+    DATA = none
+
+Frame:
+
+    AA 03 00 03 FF
+
+
+4.4 Forbidden Map
+
+    CMD  = GS_CMD_FORBIDDEN_MAP
+    LEN  = 99
+    DATA = forbidden map cells
+
+The map is 9 rows x 11 columns.
+
+Actual world coordinate:
+
+    x axis: south direction, vertical on screen, 0~4.5 m
+    y axis: east direction, horizontal on screen, 0~5.5 m
+    cell size: 0.5 m
+
+DATA layout:
+
+    DATA[0]  = row 0, col 0
+    DATA[1]  = row 0, col 1
+    ...
+    DATA[10] = row 0, col 10
+    DATA[11] = row 1, col 0
+    ...
+    DATA[98] = row 8, col 10
+
+Cell value:
+
+    0x00 = free cell
+    0x01 = forbidden cell
+
+Frame format:
+
+    AA 10 63 DATA[0] ... DATA[98] CHECK FF
+
+
+5. Onboard Computer -> STM32
+----------------------------
+
+5.1 ACK
+
+Used by the receiver to confirm that a command was received.
+
+The onboard computer can ACK commands sent by STM32.
+STM32 can also ACK commands sent by the serial tool or onboard computer during
+debugging.
+
+    CMD  = GS_CMD_ACK
+    LEN  = 1
+    DATA = original command id
+
+Example: ACK for takeoff:
+
+    AA 7F 01 01 81 FF
+
+
+5.2 NACK
+
+Used by the receiver to report that a command was rejected or invalid.
+
+    CMD  = GS_CMD_NACK
+    LEN  = 2
+    DATA[0] = original command id
+    DATA[1] = error code
+
+Suggested error code:
+
+    0x01 = checksum/frame error
+    0x02 = unsupported command
+    0x03 = invalid payload length
+    0x04 = command rejected by current flight state
+
+
+5.3 Path Plan, Multi-packet
+---------------------------
+
+Used by the onboard computer to send planned trajectory points to STM32.
+
+Path planning uses multi-packet transmission because a full trajectory may
+contain more points than one frame can carry.
+
+    CMD = GS_CMD_PATH_PLAN
+
+Payload format:
+
+    DATA[0] = packet_index
+    DATA[1] = packet_count
+    DATA[2] = total_points
+    DATA[3] = points_in_this_packet
+    DATA[4..] = path points
+
+Each point uses 4 bytes:
+
+    int16_t x_cm
+    int16_t y_cm
+
+Byte order:
+
+    little endian
+
+Meaning:
+
+    x_cm: south direction, unit = centimeter
+    y_cm: east direction, unit = centimeter
+
+Payload length:
+
+    LEN = 4 + points_in_this_packet * 4
+
+Because current max payload is 128 bytes:
+
+    points_in_this_packet <= 31
+
+Packet field meaning:
+
+    packet_index          : current packet number, starts from 0
+    packet_count          : total packet count
+    total_points          : total trajectory points in this path
+    points_in_this_packet : point count carried by this packet
+
+Path packet end rule:
+
+    The final packet is identified by:
+
+        packet_index == packet_count - 1
+
+    STM32 should collect points until the final packet is received.
+
+Recommended packet rules:
+
+    packet_count must be greater than 0
+    packet_index must be less than packet_count
+    total_points must be equal to the sum of all points_in_this_packet
+    packets should be sent in order from packet_index 0 to packet_count - 1
+
+Example: a path with 2 points, sent in 1 packet:
+
+    packet_index = 0
+    packet_count = 1
+    total_points = 2
+    points_in_this_packet = 2
+    point 0: x = 50 cm,  y = 100 cm
+    point 1: x = 150 cm, y = 200 cm
+
+DATA:
+
+    00 01 02 02
+    32 00 64 00
+    96 00 C8 00
+
+Frame:
+
+    AA 20 0C 00 01 02 02 32 00 64 00 96 00 C8 00 CHECK FF
+
+Example: a path with 70 points, sent in 3 packets:
+
+    packet 0:
+        packet_index = 0
+        packet_count = 3
+        total_points = 70
+        points_in_this_packet = 31
+
+    packet 1:
+        packet_index = 1
+        packet_count = 3
+        total_points = 70
+        points_in_this_packet = 31
+
+    packet 2:
+        packet_index = 2
+        packet_count = 3
+        total_points = 70
+        points_in_this_packet = 8
+
+    packet 2 is the final packet because:
+
+        packet_index == packet_count - 1
+
+
+5.4 Optional Path Transfer ACK
+------------------------------
+
+STM32 may reply ACK after receiving each path packet:
+
+    CMD  = GS_CMD_ACK
+    LEN  = 2
+    DATA[0] = GS_CMD_PATH_PLAN
+    DATA[1] = packet_index
+
+Example: ACK for path packet 0:
+
+    AA 7F 02 20 00 A1 FF
+
+If a packet is invalid, STM32 may reply NACK:
+
+    CMD  = GS_CMD_NACK
+    LEN  = 3
+    DATA[0] = GS_CMD_PATH_PLAN
+    DATA[1] = packet_index
+    DATA[2] = error code
+
+Suggested path NACK error code:
+
+    0x01 = checksum/frame error
+    0x02 = invalid packet index
+    0x03 = invalid packet count
+    0x04 = invalid point count
+    0x05 = packet order error
+
+6. STM32 Receive Flow
+---------------------
+
+USART interrupt receives one byte each time.
+
+Each received byte is passed to:
+
+    GS_Protocol_RxByte(byte)
+
+The parser state machine reads:
+
+    WAIT_HEAD -> CMD -> LEN -> DATA -> CHECK -> TAIL
+
+Receive timeout:
+
+    If STM32 receives HEAD 0xAA and enters a frame-receiving state, but no
+    complete valid frame is received within 50 ms, STM32 resets the parser and
+    displays:
+
+        Invalid
+
+    Example invalid half frame:
+
+        AA FF
+
+    This does not form a complete valid frame, so after 50 ms STM32 displays
+    "Invalid".
+
+When a complete valid frame is received, the application can call:
+
+    GS_Protocol_GetFrame(&cmd, data, &len)
+
+Then handle different commands:
+
+    GS_CMD_TAKEOFF
+    GS_CMD_LAND
+    GS_CMD_RETURN_HOME
+    GS_CMD_ACK
+    GS_CMD_NACK
+    GS_CMD_PATH_PLAN
+
+Current debug behavior:
+
+    RX GS_CMD_TAKEOFF      -> display "RX TAKEOFF", reply ACK
+    RX GS_CMD_LAND         -> display "RX LAND", reply ACK
+    RX GS_CMD_RETURN_HOME  -> display "RX RETURN", reply ACK
+    RX GS_CMD_PATH_PLAN    -> display "RX PATH", reply ACK with packet_index
+    RX unknown command     -> display "RX UNKNOWN"
+
+7. STATUS Panel Debug Display
+-----------------------------
+
+The STM32 screen STATUS panel displays the latest transmitted and received
+frames.
+
+For short frames:
+
+    TX: AA 01 00 01 FF
+    RX: AA 01 00 01 FF
+
+For long frames:
+
+    TX: AA 10 63 ... CHECK FF
+    PAYLOAD: 63h
+
+
+8. Notes
+--------
+
+Current protocol does not escape 0xAA or 0xFF inside DATA.
+
+This is acceptable for early testing because LEN controls the payload length.
+The parser only treats 0xFF as frame tail after it has already received CMD,
+LEN, DATA and CHECK.
+
+If the protocol needs stronger reliability later, add:
+
+    sequence id
+    timeout/retry
+    CRC16 instead of 8-bit checksum
+    optional data escaping

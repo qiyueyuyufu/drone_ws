@@ -5,7 +5,7 @@ set(test_project_BUILD_DEPENDS "rclcpp" "mavros_msgs" "nav_msgs" "std_msgs" "geo
 set(test_project_BUILDTOOL_DEPENDS "ament_cmake")
 set(test_project_BUILD_EXPORT_DEPENDS "rclcpp" "mavros_msgs" "nav_msgs" "std_msgs" "geometry_msgs")
 set(test_project_BUILDTOOL_EXPORT_DEPENDS )
-set(test_project_EXEC_DEPENDS "rclcpp" "mavros_msgs" "nav_msgs" "std_msgs" "geometry_msgs")
+set(test_project_EXEC_DEPENDS "launch_ros" "ros2launch" "stm32_serial_comm" "rclcpp" "mavros_msgs" "nav_msgs" "std_msgs" "geometry_msgs")
 set(test_project_TEST_DEPENDS "ament_lint_auto" "ament_lint_common")
 set(test_project_GROUP_DEPENDS )
 set(test_project_MEMBER_OF_GROUPS )

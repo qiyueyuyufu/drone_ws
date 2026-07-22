@@ -13,6 +13,7 @@
 #include "mavros_msgs/srv/command_tol.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "geometry_msgs/msg/twist_stamped.hpp"
+#include "std_msgs/msg/string.hpp"
 #include "struct.hpp"
 
 class Test :public rclcpp::Node
@@ -31,9 +32,11 @@ class Test :public rclcpp::Node
         void StateCallback(mavros_msgs::msg::State::SharedPtr msg);
         void SpeedCallback(geometry_msgs::msg::TwistStamped::SharedPtr msg);
         void PoseCallback(geometry_msgs::msg::PoseStamped::SharedPtr msg);
+        void CommandCallback(std_msgs::msg::String::SharedPtr msg);
         void SetMode(const std::string &mode);
         void arm(bool arm_cmd);
         void Pubvel(Eigen::Vector3d vel_cmd,double yaw);
+        void EnterLand();
         void loop();
         bool isoffboardready();
         bool isReachedTarget(double tolerance);
@@ -46,6 +49,7 @@ class Test :public rclcpp::Node
         rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr pos_sub_;
         rclcpp::Subscription<mavros_msgs::msg::State>::SharedPtr state_sub_;
         rclcpp::Subscription<geometry_msgs::msg::TwistStamped>::SharedPtr speed_sub_;
+        rclcpp::Subscription<std_msgs::msg::String>::SharedPtr command_sub_;
 
         rclcpp::Publisher<geometry_msgs::msg::TwistStamped>::SharedPtr speed_pub_;
 
@@ -61,6 +65,8 @@ class Test :public rclcpp::Node
         PositionController position_;
 
         State current_state_{WAIT};
+        bool takeoff_requested_{false};
+        bool landing_stopped_{false};
         int triangle_index_{0};
         Eigen::Vector3d triangle_points_[3];
 
