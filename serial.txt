@@ -4,7 +4,7 @@ GroundStation Serial Protocol
 1. Basic Frame
 --------------
 
-All serial packets use the following binary frame:
+Most command packets use the following binary frame:
 
     HEAD CMD LEN DATA... CHECK TAIL
 
@@ -21,6 +21,11 @@ Checksum example:
 
     CHECK = (CMD + LEN + all DATA bytes) & 0xFF
 
+Exception:
+
+    Path drawing frames use the fixed 6-byte format described in section 5.3.
+    They do not have the LEN field.
+
 
 2. Command Enum
 ---------------
@@ -31,7 +36,10 @@ The STM32 code uses these enum names and values:
     GS_CMD_LAND           = 0x02
     GS_CMD_RETURN_HOME    = 0x03
     GS_CMD_FORBIDDEN_MAP  = 0x10
-    GS_CMD_PATH_PLAN      = 0x20
+    GS_CMD_PATH_PLAN      = 0x20    // reserved old multi-packet path command
+    GS_CMD_PATH_START     = 0x30
+    GS_CMD_PATH_POINT     = 0x31
+    GS_CMD_PATH_END       = 0x32
     GS_CMD_ACK            = 0x7F
     GS_CMD_NACK           = 0x7E
 
@@ -168,141 +176,94 @@ Suggested error code:
     0x04 = command rejected by current flight state
 
 
-5.3 Path Plan, Multi-packet
----------------------------
+5.3 Path Drawing, Fixed 6-byte Frames
+-------------------------------------
 
-Used by the onboard computer to send planned trajectory points to STM32.
+Current STM32 route drawing uses fixed 6-byte path frames.
 
-Path planning uses multi-packet transmission because a full trajectory may
-contain more points than one frame can carry.
+These frames do NOT use the normal LEN field. The format is:
 
-    CMD = GS_CMD_PATH_PLAN
+    HEAD TYPE A B CHECK TAIL
 
-Payload format:
+Field definition:
 
-    DATA[0] = packet_index
-    DATA[1] = packet_count
-    DATA[2] = total_points
-    DATA[3] = points_in_this_packet
-    DATA[4..] = path points
+    HEAD  : 0xAA
+    TYPE  : path frame type
+    A     : row or 0
+    B     : column or 0
+    CHECK : low 8 bits of (TYPE + A + B)
+    TAIL  : 0xFF
 
-Each point uses 4 bytes:
+Path frame enum:
 
-    int16_t x_cm
-    int16_t y_cm
+    GS_CMD_PATH_START = 0x30
+    GS_CMD_PATH_POINT = 0x31
+    GS_CMD_PATH_END   = 0x32
 
-Byte order:
+Path start:
 
-    little endian
+    AA 30 00 00 30 FF
 
 Meaning:
 
-    x_cm: south direction, unit = centimeter
-    y_cm: east direction, unit = centimeter
+    Clear the old displayed route, keep forbidden cells, and begin receiving
+    path points.
 
-Payload length:
+Path point:
 
-    LEN = 4 + points_in_this_packet * 4
+    AA 31 ROW COL CHECK FF
 
-Because current max payload is 128 bytes:
+Meaning:
 
-    points_in_this_packet <= 31
+    ROW: map row, 1~9
+    COL: map column, 1~11
 
-Packet field meaning:
+The row and column are grid coordinates shown on the STM32 screen.
+The route line is drawn through the center of each cell.
 
-    packet_index          : current packet number, starts from 0
-    packet_count          : total packet count
-    total_points          : total trajectory points in this path
-    points_in_this_packet : point count carried by this packet
+Example: row 1, column 1
 
-Path packet end rule:
+    CHECK = 0x31 + 0x01 + 0x01 = 0x33
+    AA 31 01 01 33 FF
 
-    The final packet is identified by:
+Example: row 3, column 5
 
-        packet_index == packet_count - 1
+    CHECK = 0x31 + 0x03 + 0x05 = 0x39
+    AA 31 03 05 39 FF
 
-    STM32 should collect points until the final packet is received.
+Path end:
 
-Recommended packet rules:
+    AA 32 00 00 32 FF
 
-    packet_count must be greater than 0
-    packet_index must be less than packet_count
-    total_points must be equal to the sum of all points_in_this_packet
-    packets should be sent in order from packet_index 0 to packet_count - 1
+Meaning:
 
-Example: a path with 2 points, sent in 1 packet:
+    Stop receiving this route. The displayed route remains on the map.
 
-    packet_index = 0
-    packet_count = 1
-    total_points = 2
-    points_in_this_packet = 2
-    point 0: x = 50 cm,  y = 100 cm
-    point 1: x = 150 cm, y = 200 cm
+ACK behavior:
 
-DATA:
+    STM32 replies ACK after receiving each valid start, point, or end frame.
 
-    00 01 02 02
-    32 00 64 00
-    96 00 C8 00
+Example ACK for one valid path point:
 
-Frame:
+    AA 7F 01 31 B1 FF
 
-    AA 20 0C 00 01 02 02 32 00 64 00 96 00 C8 00 CHECK FF
+Invalid behavior:
 
-Example: a path with 70 points, sent in 3 packets:
+    STM32 displays "Invalid" when:
 
-    packet 0:
-        packet_index = 0
-        packet_count = 3
-        total_points = 70
-        points_in_this_packet = 31
+    checksum is wrong
+    tail is not 0xFF
+    frame times out after 0xAA
+    row is not in 1~9
+    column is not in 1~11
+    a path point is received before path start
 
-    packet 1:
-        packet_index = 1
-        packet_count = 3
-        total_points = 70
-        points_in_this_packet = 31
+Reserved old command:
 
-    packet 2:
-        packet_index = 2
-        packet_count = 3
-        total_points = 70
-        points_in_this_packet = 8
+    GS_CMD_PATH_PLAN = 0x20
 
-    packet 2 is the final packet because:
-
-        packet_index == packet_count - 1
-
-
-5.4 Optional Path Transfer ACK
-------------------------------
-
-STM32 may reply ACK after receiving each path packet:
-
-    CMD  = GS_CMD_ACK
-    LEN  = 2
-    DATA[0] = GS_CMD_PATH_PLAN
-    DATA[1] = packet_index
-
-Example: ACK for path packet 0:
-
-    AA 7F 02 20 00 A1 FF
-
-If a packet is invalid, STM32 may reply NACK:
-
-    CMD  = GS_CMD_NACK
-    LEN  = 3
-    DATA[0] = GS_CMD_PATH_PLAN
-    DATA[1] = packet_index
-    DATA[2] = error code
-
-Suggested path NACK error code:
-
-    0x01 = checksum/frame error
-    0x02 = invalid packet index
-    0x03 = invalid packet count
-    0x04 = invalid point count
-    0x05 = packet order error
+This old multi-packet command is reserved and not used by the current route
+drawing debug flow.
 
 6. STM32 Receive Flow
 ---------------------
@@ -316,6 +277,10 @@ Each received byte is passed to:
 The parser state machine reads:
 
     WAIT_HEAD -> CMD -> LEN -> DATA -> CHECK -> TAIL
+
+For fixed 6-byte path frames, the parser reads:
+
+    WAIT_HEAD -> TYPE -> A -> B -> CHECK -> TAIL
 
 Receive timeout:
 
@@ -343,14 +308,19 @@ Then handle different commands:
     GS_CMD_RETURN_HOME
     GS_CMD_ACK
     GS_CMD_NACK
-    GS_CMD_PATH_PLAN
+    GS_CMD_PATH_START
+    GS_CMD_PATH_POINT
+    GS_CMD_PATH_END
 
 Current debug behavior:
 
     RX GS_CMD_TAKEOFF      -> display "RX TAKEOFF", reply ACK
     RX GS_CMD_LAND         -> display "RX LAND", reply ACK
     RX GS_CMD_RETURN_HOME  -> display "RX RETURN", reply ACK
-    RX GS_CMD_PATH_PLAN    -> display "RX PATH", reply ACK with packet_index
+    RX GS_CMD_PATH_START   -> clear old route, display "PATH START", reply ACK
+    RX GS_CMD_PATH_POINT   -> draw line to cell center, display "PATH POINT", reply ACK
+    RX GS_CMD_PATH_END     -> finish route, display "PATH END", reply ACK
+    RX invalid path point  -> display "Invalid"
     RX unknown command     -> display "RX UNKNOWN"
 
 7. STATUS Panel Debug Display

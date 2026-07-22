@@ -6,10 +6,8 @@
 #include <cctype>
 #include <iomanip>
 #include <memory>
-#include <random>
 #include <sstream>
 #include <string>
-#include <utility>
 #include <vector>
 
 using namespace std::chrono_literals;
@@ -71,27 +69,10 @@ std::string toLowerAscii(std::string text)
     return text;
 }
 
-std::vector<uint8_t> buildFrameBody(uint8_t cmd, const std::vector<uint8_t>& payload)
+std::vector<uint8_t> buildFixedPathFrameBody(uint8_t type, uint8_t a, uint8_t b)
 {
-    std::vector<uint8_t> body;
-    body.reserve(payload.size() + 3);
-    body.push_back(cmd);
-    body.push_back(static_cast<uint8_t>(payload.size()));
-    body.insert(body.end(), payload.begin(), payload.end());
-
-    uint8_t check = 0;
-    for (uint8_t byte : body)
-    {
-        check = static_cast<uint8_t>(check + byte);
-    }
-    body.push_back(check);
-    return body;
-}
-
-void appendInt16Le(std::vector<uint8_t>& data, int16_t value)
-{
-    data.push_back(static_cast<uint8_t>(value & 0xFF));
-    data.push_back(static_cast<uint8_t>((value >> 8) & 0xFF));
+    uint8_t check = static_cast<uint8_t>(type + a + b);
+    return {type, a, b, check};
 }
 }  // namespace
 
@@ -118,7 +99,13 @@ public:
         if (serial_port_->open(port, baudrate))
         {
             timer_ = this->create_wall_timer(20ms, std::bind(&SerialCommNode::pollSerial, this));
-            test_tx_timer_ = this->create_wall_timer(1s, std::bind(&SerialCommNode::sendRandomPathPlan, this));
+            path_test_frames_ = {
+                buildFixedPathFrameBody(0x30, 0x00, 0x00),
+                buildFixedPathFrameBody(0x31, 0x01, 0x01),
+                buildFixedPathFrameBody(0x31, 0x03, 0x05),
+                buildFixedPathFrameBody(0x32, 0x00, 0x00)
+            };
+            test_tx_timer_ = this->create_wall_timer(200ms, std::bind(&SerialCommNode::sendNextPathTestFrame, this));
         }
         else
         {
@@ -141,51 +128,31 @@ private:
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr command_pub_;
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::TimerBase::SharedPtr test_tx_timer_;
-    int random_path_tx_count_{0};
-    std::mt19937 rng_{std::random_device{}()};
+    std::vector<std::vector<uint8_t>> path_test_frames_;
+    size_t path_test_frame_index_{0};
 
-    void sendRandomPathPlan()
+    void sendNextPathTestFrame()
     {
-        if (random_path_tx_count_ >= 5)
+        if (path_test_frame_index_ >= path_test_frames_.size())
         {
             test_tx_timer_->cancel();
             return;
         }
 
-        constexpr uint8_t gs_cmd_path_plan = 0x20;
-        std::uniform_int_distribution<int16_t> x_dist(0, 450);
-        std::uniform_int_distribution<int16_t> y_dist(0, 550);
-        std::pair<int16_t, int16_t> point0{x_dist(rng_), y_dist(rng_)};
-        std::pair<int16_t, int16_t> point1{x_dist(rng_), y_dist(rng_)};
-
-        std::vector<uint8_t> payload = {
-            0x00,  // packet_index
-            0x01,  // packet_count
-            0x02,  // total_points
-            0x02   // points_in_this_packet
-        };
-        appendInt16Le(payload, point0.first);
-        appendInt16Le(payload, point0.second);
-        appendInt16Le(payload, point1.first);
-        appendInt16Le(payload, point1.second);
-
-        std::vector<uint8_t> body = buildFrameBody(gs_cmd_path_plan, payload);
+        const std::vector<uint8_t>& body = path_test_frames_[path_test_frame_index_];
         std::vector<uint8_t> full_frame = {0xAA};
         full_frame.insert(full_frame.end(), body.begin(), body.end());
         full_frame.push_back(0xFF);
 
         int bytes_sent = serial_port_->write(body);
-        random_path_tx_count_++;
         RCLCPP_INFO(
             this->get_logger(),
-            "Sent random path plan %d/5, bytes: %d, P0=(%d,%d)cm, P1=(%d,%d)cm, FRAME=[%s]",
-            random_path_tx_count_,
+            "Sent path test frame %zu/%zu, bytes: %d, FRAME=[%s]",
+            path_test_frame_index_ + 1,
+            path_test_frames_.size(),
             bytes_sent,
-            point0.first,
-            point0.second,
-            point1.first,
-            point1.second,
             bytesToHex(full_frame, 0, full_frame.size()).c_str());
+        path_test_frame_index_++;
     }
 
     void pollSerial()

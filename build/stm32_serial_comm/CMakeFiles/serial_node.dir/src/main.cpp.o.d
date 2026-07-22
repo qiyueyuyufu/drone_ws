@@ -691,7 +691,4 @@ CMakeFiles/serial_node.dir/src/main.cpp.o: \
  /opt/ros/jazzy/include/std_msgs/std_msgs/msg/detail/string__traits.hpp \
  /opt/ros/jazzy/include/std_msgs/std_msgs/msg/detail/string__type_support.hpp \
  /opt/ros/jazzy/include/std_msgs/std_msgs/msg/rosidl_generator_cpp__visibility_control.hpp \
- /home/qiyue/ros2_learn/test/src/stm32_serial_comm/include/stm32_serial_comm/serial.hpp \
- /usr/include/c++/13/random /usr/include/c++/13/bits/random.h \
- /usr/include/x86_64-linux-gnu/c++/13/bits/opt_random.h \
- /usr/include/c++/13/bits/random.tcc
+ /home/qiyue/ros2_learn/test/src/stm32_serial_comm/include/stm32_serial_comm/serial.hpp
