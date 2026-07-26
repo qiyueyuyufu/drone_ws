@@ -19,7 +19,20 @@ add_executable(test_node
      src/position_controller.cpp
 )
 
+add_executable(hover_node
+     src/hover_node.cpp
+     src/position_controller.cpp
+)
+
 ament_target_dependencies(test_node
+  rclcpp
+  geometry_msgs
+  mavros_msgs
+  nav_msgs
+  std_msgs
+)
+
+ament_target_dependencies(hover_node
   rclcpp
   geometry_msgs
   mavros_msgs
@@ -34,7 +47,16 @@ target_include_directories(test_node PUBLIC
 target_include_directories(test_node PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-install(TARGETS test_node
+
+target_include_directories(hover_node PUBLIC
+    include
+    ${EIGEN3_INCLUDE_DIRS}
+)
+target_include_directories(hover_node PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+install(TARGETS test_node hover_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
